@@ -1,10 +1,5 @@
-GET        /                       controllers.HomeController.index
+GET     /                           controllers.HomeController.index
+GET     /signin/:username           controllers.LoginController.identify(username)
+GET     /signin/:username/:password controllers.LoginController.validate(username, password)
 
-->         /v1/posts               v1.post.PostRouter
-
-# Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
-
-# Project controllers
-
-GET         /signin/:username      controllers.LoginController.signin(username:String)
+->     /v1/posts                    posts.Routes

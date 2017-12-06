@@ -1,35 +1,41 @@
-import sbt.Keys._
+name := """play-java-rest-api-example"""
+
+version := "2.6.x"
+
+inThisBuild(
+  List(
+    scalaVersion := "2.12.3",
+    dependencyOverrides := Seq(
+       "org.codehaus.plexus" % "plexus-utils" % "3.0.18",
+       "com.google.code.findbugs" % "jsr305" % "3.0.1",
+       "com.google.guava" % "guava" % "22.0",
+       "com.typesafe.akka" %% "akka-stream" % "2.5.6",
+       "com.typesafe.akka" %% "akka-actor" % "2.5.6"
+    )
+  )
+)
+
 
 lazy val GatlingTest = config("gatling") extend Test
 
-// This must be set to 2.11.11 because Gatling does not run on 2.12.2
-scalaVersion in ThisBuild := "2.11.11"
-
-libraryDependencies += guice
-libraryDependencies += "org.joda" % "joda-convert" % "1.9.2"
-libraryDependencies += "net.logstash.logback" % "logstash-logback-encoder" % "4.11"
-
-libraryDependencies += "com.netaporter" %% "scala-uri" % "0.4.16"
-libraryDependencies += "net.codingwell" %% "scala-guice" % "4.1.1"
-
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
-libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.2" % Test
-libraryDependencies += "io.gatling" % "gatling-test-framework" % "2.2.2" % Test
-
-// The Play project itself
-lazy val root = (project in file("."))
-  .enablePlugins(Common, PlayScala, GatlingPlugin)
-  .configs(GatlingTest)
+lazy val root = (project in file(".")).enablePlugins(PlayJava, GatlingPlugin).configs(GatlingTest)
   .settings(inConfig(GatlingTest)(Defaults.testSettings): _*)
   .settings(
-    name := """play-scala-rest-api-example""",
     scalaSource in GatlingTest := baseDirectory.value / "/gatling/simulation"
   )
 
-// Documentation for this project:
-//    sbt "project docs" "~ paradox"
-//    open docs/target/paradox/site/index.html
-lazy val docs = (project in file("docs")).enablePlugins(ParadoxPlugin).
-  settings(
-    paradoxProperties += ("download_url" -> "https://example.lightbend.com/v1/download/play-rest-api")
-  )
+libraryDependencies += guice
+libraryDependencies += javaJpa
+libraryDependencies += "com.h2database" % "h2" % "1.4.194"
+
+libraryDependencies += "org.hibernate" % "hibernate-core" % "5.2.9.Final"
+libraryDependencies += "io.dropwizard.metrics" % "metrics-core" % "3.2.1"
+libraryDependencies += "com.palominolabs.http" % "url-builder" % "1.1.0"
+libraryDependencies += "net.jodah" % "failsafe" % "1.0.3"
+
+libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % Test
+libraryDependencies += "io.gatling" % "gatling-test-framework" % "2.3.0" % Test
+
+PlayKeys.externalizeResources := false
+
+testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
