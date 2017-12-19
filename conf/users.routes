@@ -1,0 +1,2 @@
+GET /           v1.user.UserController.list
+GET /:username  v1.user.UserController.identify(username)

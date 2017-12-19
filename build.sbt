@@ -35,6 +35,8 @@ libraryDependencies += "net.jodah" % "failsafe" % "1.0.3"
 
 libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.0" % Test
 libraryDependencies += "io.gatling" % "gatling-test-framework" % "2.3.0" % Test
+// https://mvnrepository.com/artifact/org.firebirdsql.jdbc/jaybird
+libraryDependencies += "org.firebirdsql.jdbc" % "jaybird" % "2.2.5" pomOnly()
 
 PlayKeys.externalizeResources := false
 

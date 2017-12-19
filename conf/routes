@@ -1,5 +1,6 @@
 GET     /                           controllers.HomeController.index
-GET     /signin/:username           controllers.LoginController.identify(username)
-GET     /signin/:username/:password controllers.LoginController.validate(username, password)
+#GET     /signin/:username           controllers.LoginController.identify(username)
+#GET     /signin/:username/:password controllers.LoginController.validate(username, password)
 
 ->     /v1/posts                    posts.Routes
+->     /v1/users                    users.Routes
